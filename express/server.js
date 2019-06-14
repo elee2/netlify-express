@@ -3,7 +3,7 @@ const express = require("express");
 const serverless = require("serverless-http");
 const app = express();
 const bodyParser = require("body-parser");
-const request = require("request");
+const axios = require("axios");
 
 const router = express.Router();
 router.get("/", (req, res) => {
@@ -12,33 +12,25 @@ router.get("/", (req, res) => {
 });
 
 async function get24Hour() {
-  return await request(
-    "https://api-pub.bitfinex.com/v2/stats1/leo.burn.acc:1h:bal/hist?limit=24",
-    { json: true },
-    (err, res, body) => {
-      if (err) {
-        return console.log(err);
-      }
+  return await axios
+    .get(
+      "https://api-pub.bitfinex.com/v2/stats1/leo.burn.acc:1h:bal/hist?limit=24"
+    )
+    .then(body => {
       var tburn = 0;
       for (var i = 0; i < body.length; ++i) {
         tburn = tburn + body[i][1];
       }
       return tburn;
-    }
-  );
+    });
 }
 
 async function getSupply() {
-  return await request(
-    "https://api-pub.bitfinex.com/v2/stats1/leo.burn.supply:1d:val/last",
-    { json: true },
-    (err, res, body) => {
-      if (err) {
-        return console.log(err);
-      }
+  return await axios
+    .get("https://api-pub.bitfinex.com/v2/stats1/leo.burn.supply:1d:val/last")
+    .then(body => {
       return body[1];
-    }
-  );
+    });
 }
 
 const asyncMiddleware = fn => (req, res, next) => {

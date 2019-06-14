@@ -11,8 +11,8 @@ router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/index.html"));
 });
 
-function get24Hour() {
-  request(
+async function get24Hour() {
+  return await request(
     "https://api-pub.bitfinex.com/v2/stats1/leo.burn.acc:1h:bal/hist?limit=24",
     { json: true },
     (err, res, body) => {
@@ -28,8 +28,8 @@ function get24Hour() {
   );
 }
 
-function getSupply() {
-  request(
+async function getSupply() {
+  return await request(
     "https://api-pub.bitfinex.com/v2/stats1/leo.burn.supply:1d:val/last",
     { json: true },
     (err, res, body) => {
@@ -40,10 +40,18 @@ function getSupply() {
     }
   );
 }
-
+const asyncMiddleware = fn => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
 router.get("/test", (req, res) => res.json({ value: "test" }));
-router.get("/24hr", (req, res) => res.json({ value: get24Hour() }));
-router.get("/supply", (req, res) => res.json({ value: getSupply() }));
+router.get(
+  "/24hr",
+  asyncMiddleWare(async (req, res, next) => res.json({ value: get24Hour() }))
+);
+router.get(
+  "/supply",
+  asyncMiddleWare(async (req, res, next) => res.json({ value: getSupply() }))
+);
 
 app.use(bodyParser.json());
 app.use("/.netlify/functions/server", router); // path must route to lambda

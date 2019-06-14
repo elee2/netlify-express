@@ -41,6 +41,7 @@ function getSupply() {
   );
 }
 
+router.get("/test", (req, res) => res.json({ value: "test" }));
 router.get("/24hr", (req, res) => res.json({ value: get24Hour() }));
 router.get("/supply", (req, res) => res.json({ value: getSupply() }));
 

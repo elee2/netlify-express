@@ -17,6 +17,7 @@ function refreshData() {
 
 $(function() {
   setInterval(refreshData, 10000);
+  setInterval(adjustCountDown(), 1000);
 });
 
 function adjustCountDown() {

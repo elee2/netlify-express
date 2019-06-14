@@ -12,7 +12,7 @@ function refreshData() {
     supply = data.value;
   });
 
-  distance = (supply / burn24) * 24 * 60 * 60 * 60;
+  distance = (supply / burn24) * 24 * 60 * 60 * 60 * 1000;
 }
 
 $(function() {
@@ -36,7 +36,8 @@ function adjustCountDown() {
       minutes +
       " minutes, and " +
       seconds +
-      "seconds "
+      " seconds "
   );
+
   distance = distance - 1;
 }

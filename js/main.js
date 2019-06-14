@@ -12,12 +12,14 @@ function refreshData() {
     supply = data.value;
   });
 
-  distance = (supply / burn24) * 24 * 60 * 60;
+  distance = (supply / burn24) * 24 * 60 * 60 * 60;
 }
 
 $(function() {
+  refreshData();
+  adjustCountDown();
   setInterval(refreshData, 10000);
-  setInterval(adjustCountDown(), 1000);
+  setInterval(adjustCountDown, 1000);
 });
 
 function adjustCountDown() {
@@ -28,11 +30,11 @@ function adjustCountDown() {
 
   $(".item").html(
     days +
-      "days " +
+      " days, " +
       hours +
-      "hours " +
+      " hours, " +
       minutes +
-      "minutes " +
+      " minutes, and " +
       seconds +
       "seconds "
   );

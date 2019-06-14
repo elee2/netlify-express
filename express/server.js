@@ -40,19 +40,21 @@ async function getSupply() {
     }
   );
 }
+
 const asyncMiddleware = fn => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
+
 router.get("/test", (req, res) => res.json({ value: "test" }));
 router.get(
   "/24hr",
-  asyncMiddleWare(async (req, res, next) =>
+  asyncMiddleware(async (req, res, next) =>
     res.json({ value: await get24Hour() })
   )
 );
 router.get(
   "/supply",
-  asyncMiddleWare(async (req, res, next) =>
+  asyncMiddleware(async (req, res, next) =>
     res.json({ value: await getSupply() })
   )
 );

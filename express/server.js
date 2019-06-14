@@ -46,11 +46,15 @@ const asyncMiddleware = fn => (req, res, next) => {
 router.get("/test", (req, res) => res.json({ value: "test" }));
 router.get(
   "/24hr",
-  asyncMiddleWare(async (req, res, next) => res.json({ value: get24Hour() }))
+  asyncMiddleWare(async (req, res, next) =>
+    res.json({ value: await get24Hour() })
+  )
 );
 router.get(
   "/supply",
-  asyncMiddleWare(async (req, res, next) => res.json({ value: getSupply() }))
+  asyncMiddleWare(async (req, res, next) =>
+    res.json({ value: await getSupply() })
+  )
 );
 
 app.use(bodyParser.json());

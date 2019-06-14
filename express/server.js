@@ -18,8 +18,8 @@ async function get24Hour() {
     )
     .then(body => {
       var tburn = 0;
-      for (var i = 0; i < body.length; ++i) {
-        tburn = tburn + body[i][1];
+      for (var i = 0; i < body.data.length; ++i) {
+        tburn = tburn + body.data[i][1];
       }
       return tburn;
     });
@@ -29,7 +29,7 @@ async function getSupply() {
   return await axios
     .get("https://api-pub.bitfinex.com/v2/stats1/leo.burn.supply:1d:val/last")
     .then(body => {
-      return body[1];
+      return body.data[1];
     });
 }
 
